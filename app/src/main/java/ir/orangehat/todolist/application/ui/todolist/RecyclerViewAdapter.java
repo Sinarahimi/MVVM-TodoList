@@ -23,6 +23,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<Todo> todoArrayList;
     private Context context;
 
+    public RecyclerViewAdapter(ArrayList<Todo> todoArrayList, Context context) {
+        this.todoArrayList = todoArrayList;
+        this.context = context;
+    }
+
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -65,6 +70,4 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
     }
-
-
 }

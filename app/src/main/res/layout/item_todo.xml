@@ -29,7 +29,8 @@
             android:layout_toLeftOf="@id/delete_icon"
             android:text="@string/delete"
             android:textColor="#fff"
-            android:textSize="13dp" />
+            android:textSize="13sp"
+            android:layout_toStartOf="@id/delete_icon" />
 
     </RelativeLayout>
 
