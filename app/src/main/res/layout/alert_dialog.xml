@@ -10,11 +10,13 @@
         android:id="@+id/editText"
         android:layout_width="0dp"
         android:layout_height="86dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="43dp"
         android:layout_marginStart="43dp"
         android:layout_marginTop="28dp"
         android:hint="Write your note here"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/calendarView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,18 +28,20 @@
         android:layout_marginBottom="95dp"
         android:layout_marginStart="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="18dp" />
 
     <TextView
         android:id="@+id/AlertTextDate"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginTop="26dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="date"
-        android:textSize="14sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
@@ -46,6 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3dp"
+        android:layout_marginTop="12dp"
         android:background="@color/colorAccent"
         android:text="Accept"
         android:textColor="@android:color/white"
@@ -55,11 +60,11 @@
         android:layout_marginRight="3dp" />
 
     <Button
-        android:id="@+id/CancelButton"
+        android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="12dp"
         android:background="@color/colorPrimaryDark"
         android:text="Cancel"
         android:textColor="@android:color/white"

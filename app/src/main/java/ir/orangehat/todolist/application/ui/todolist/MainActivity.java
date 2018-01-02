@@ -2,19 +2,24 @@ package ir.orangehat.todolist.application.ui.todolist;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,33 +27,63 @@ import java.util.List;
 
 import ir.orangehat.todolist.R;
 import ir.orangehat.todolist.bussines.model.Todo;
+import ir.orangehat.todolist.utils.RecyclerItemTouchHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+
+    private TextView dateTextView;
+    private MainViewModel mainViewModel;
+    private CoordinatorLayout coordinatorLayout;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = getRecyclerView();
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(view -> {
-            addItemDialog();
-        });
+        view    ();
 
-        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        floatingActionButton.setOnClickListener(FloatingActionButtonClickListener);
 
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        observe(recyclerView);
+    }
+
+    private void view() {
+        floatingActionButton = findViewById(R.id.fab);
+        coordinatorLayout = findViewById(R.id.coordinatorLayoutMain);
+    }
+
+    private void observe(RecyclerView recyclerView) {
         mainViewModel.getListLiveData().observe(MainActivity.this, new Observer<List<Todo>>() {
             @Override
             public void onChanged(@Nullable List<Todo> toDos) {
                 ArrayList<Todo> todoArrayList = new ArrayList<>(toDos);
+                ImageView imageView = findViewById(R.id.imageViewEmptyList);
                 RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(todoArrayList, MainActivity.this);
+                if (recyclerViewAdapter.getItemCount() == 0) {
+                    imageView.setVisibility(View.VISIBLE);
+                } else {
+                    imageView.setVisibility(View.GONE);
+                }
                 recyclerView.setAdapter(recyclerViewAdapter);
             }
         });
     }
+
+    @NonNull
+    private RecyclerView getRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+        return recyclerView;
+    }
+
+    private View.OnClickListener FloatingActionButtonClickListener = view -> addItemDialog();
 
     public void addItemDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -60,18 +95,61 @@ public class MainActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-                TextView dateTextView = dialogView.findViewById(R.id.AlertTextDate);
+                dateTextView = dialogView.findViewById(R.id.AlertTextDate);
                 dateTextView.setText("date :" + year + "/" + (month + 1) + "/" + dayOfMonth);
             }
         });
-        calendarView.getDate();
+        AlertDialog b = dialogBuilder.create();
+        Button acceptButton = dialogView.findViewById(R.id.acceptButton);
+        Button cancelButton = dialogView.findViewById(R.id.cancelButton);
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editText = dialogView.findViewById(R.id.editText);
+                Todo todo = new Todo();
+                todo.setDate(dateTextView.getText().toString());
+                todo.setNote(editText.getText().toString());
+                mainViewModel.insertNote(todo);
+                b.cancel();
+            }
+        });
 
-        long date = calendarView.getDate();
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                b.cancel();
+            }
+        });
 
         dialogBuilder.setTitle("Custom dialog");
-        dialogBuilder.setMessage("Enter text below");
-
-        AlertDialog b = dialogBuilder.create();
         b.show();
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        //TODO: complete this part
+//
+//        String name = cartList.get(viewHolder.getAdapterPosition()).getName();
+//
+//        // backup of removed item for undo purpose
+//        final Item deletedItem = cartList.get(viewHolder.getAdapterPosition());
+//        final int deletedIndex = viewHolder.getAdapterPosition();
+//
+//        // remove the item from recycler view
+//        mAdapter.removeItem(viewHolder.getAdapterPosition());
+//
+//        // showing snack bar with Undo option
+//        Snackbar snackbar = Snackbar
+//                .make(coordinatorLayout, name + " removed from cart!", Snackbar.LENGTH_LONG);
+//        snackbar.setAction("UNDO", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                // undo is selected, restore the deleted item
+//                mAdapter.restoreItem(deletedItem, deletedIndex);
+//            }
+//        });
+//        snackbar.setActionTextColor(Color.YELLOW);
+//        snackbar.show();
     }
 }

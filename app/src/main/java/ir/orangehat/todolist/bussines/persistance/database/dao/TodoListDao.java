@@ -14,7 +14,7 @@ import ir.orangehat.todolist.bussines.model.Todo;
  */
 
 @Dao
-public interface TodoListDao extends BaseDao {
+public interface TodoListDao extends BaseDao<Todo> {
 
     @Query("select * from Todo")
     LiveData<List<Todo>> select();
