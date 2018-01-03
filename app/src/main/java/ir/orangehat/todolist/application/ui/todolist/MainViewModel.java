@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import ir.orangehat.todolist.bussines.model.Todo;
+import ir.orangehat.todolist.bussines.model.Task;
 import ir.orangehat.todolist.bussines.persistance.database.AppDatabase;
 import ir.orangehat.todolist.bussines.persistance.database.TodoListDatabaseHelper;
 import ir.orangehat.todolist.bussines.persistance.database.sqlAsset.AssetSQLiteOpenHelperFactory;
@@ -28,14 +28,14 @@ public class MainViewModel extends AndroidViewModel {
         todoListDatabaseHelper = new TodoListDatabaseHelper(appDatabase.getTodoListDao());
     }
 
-    public LiveData<List<Todo>> getListLiveData() {
+    public LiveData<List<Task>> getListLiveData() {
         return todoListDatabaseHelper.get();
     }
 
-    public void insertNote(Todo todo) {
-        todoListDatabaseHelper.save(todo);
+    public void insertNote(Task task) {
+        todoListDatabaseHelper.save(task);
     }
-    public void deleteNote(Todo todo){
-        todoListDatabaseHelper.remove(todo);
+    public void deleteNote(Task task){
+        todoListDatabaseHelper.remove(task);
     }
 }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ir.orangehat.todolist.R;
-import ir.orangehat.todolist.bussines.model.Todo;
+import ir.orangehat.todolist.bussines.model.Task;
 
 /**
  * RecyclerViewAdapter
@@ -20,11 +20,11 @@ import ir.orangehat.todolist.bussines.model.Todo;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private ArrayList<Todo> todoArrayList;
+    private ArrayList<Task> taskArrayList;
     private Context context;
 
-    public RecyclerViewAdapter(ArrayList<Todo> todoArrayList, Context context) {
-        this.todoArrayList = todoArrayList;
+    public RecyclerViewAdapter(ArrayList<Task> taskArrayList, Context context) {
+        this.taskArrayList = taskArrayList;
         this.context = context;
     }
 
@@ -37,14 +37,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
-        Todo todo = todoArrayList.get(position);
-        holder.textViewDate.setText(todo.getDate());
-        holder.textViewTitle.setText(todo.getNote());
+        Task task = taskArrayList.get(position);
+        holder.textViewDate.setText(task.getDate());
+        holder.textViewTitle.setText(task.getNote());
     }
 
     @Override
     public int getItemCount() {
-        return (todoArrayList == null || todoArrayList.isEmpty()) ? 0 : todoArrayList.size();
+        return (taskArrayList == null || taskArrayList.isEmpty()) ? 0 : taskArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void removeItem(int position) {
-        todoArrayList.remove(position);
+        taskArrayList.remove(position);
         // notify the item removed by position
         // to perform recycler view delete animations
         // NOTE: don't call notifyDataSetChanged()

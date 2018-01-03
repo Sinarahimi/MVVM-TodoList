@@ -2,13 +2,11 @@ package ir.orangehat.todolist.application.ui.todolist;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ir.orangehat.todolist.R;
-import ir.orangehat.todolist.bussines.model.Todo;
+import ir.orangehat.todolist.bussines.model.Task;
 import ir.orangehat.todolist.utils.RecyclerItemTouchHelper;
 
 public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -58,12 +56,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
     }
 
     private void observe(RecyclerView recyclerView) {
-        mainViewModel.getListLiveData().observe(MainActivity.this, new Observer<List<Todo>>() {
+        mainViewModel.getListLiveData().observe(MainActivity.this, new Observer<List<Task>>() {
             @Override
-            public void onChanged(@Nullable List<Todo> toDos) {
-                ArrayList<Todo> todoArrayList = new ArrayList<>(toDos);
+            public void onChanged(@Nullable List<Task> toDos) {
+                ArrayList<Task> taskArrayList = new ArrayList<>(toDos);
                 ImageView imageView = findViewById(R.id.imageViewEmptyList);
-                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(todoArrayList, MainActivity.this);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(taskArrayList, MainActivity.this);
                 if (recyclerViewAdapter.getItemCount() == 0) {
                     imageView.setVisibility(View.VISIBLE);
                 } else {
@@ -92,34 +90,23 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         dialogBuilder.setView(dialogView);
 
         final CalendarView calendarView = dialogView.findViewById(R.id.calendarView);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-                dateTextView = dialogView.findViewById(R.id.AlertTextDate);
-                dateTextView.setText("date :" + year + "/" + (month + 1) + "/" + dayOfMonth);
-            }
+        calendarView.setOnDateChangeListener((dateView, year, month, dayOfMonth) -> {
+            dateTextView = dialogView.findViewById(R.id.AlertTextDate);
+            dateTextView.setText("date :" + year + "/" + (month + 1) + "/" + dayOfMonth);
         });
         AlertDialog b = dialogBuilder.create();
         Button acceptButton = dialogView.findViewById(R.id.acceptButton);
         Button cancelButton = dialogView.findViewById(R.id.cancelButton);
-        acceptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText editText = dialogView.findViewById(R.id.editText);
-                Todo todo = new Todo();
-                todo.setDate(dateTextView.getText().toString());
-                todo.setNote(editText.getText().toString());
-                mainViewModel.insertNote(todo);
-                b.cancel();
-            }
+        acceptButton.setOnClickListener(view -> {
+            EditText editText = dialogView.findViewById(R.id.editText);
+            Task task = new Task();
+            task.setDate(dateTextView.getText().toString());
+            task.setNote(editText.getText().toString());
+            mainViewModel.insertNote(task);
+            b.cancel();
         });
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                b.cancel();
-            }
-        });
+        cancelButton.setOnClickListener(view -> b.cancel());
 
         dialogBuilder.setTitle("Custom dialog");
         b.show();

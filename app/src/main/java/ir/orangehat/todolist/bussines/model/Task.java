@@ -7,7 +7,7 @@ import android.arch.persistence.room.Entity;
  */
 
 @Entity
-public class Todo extends Persistable {
+public class Task extends Persistable {
 
     private String note;
     private String date;

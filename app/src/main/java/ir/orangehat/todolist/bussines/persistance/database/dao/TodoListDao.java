@@ -4,18 +4,17 @@ import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ir.orangehat.todolist.bussines.model.Todo;
+import ir.orangehat.todolist.bussines.model.Task;
 
 /**
  * data access object for todoList
  */
 
 @Dao
-public interface TodoListDao extends BaseDao<Todo> {
+public interface TodoListDao extends BaseDao<Task> {
 
-    @Query("select * from Todo")
-    LiveData<List<Todo>> select();
+    @Query("select * from Task")
+    LiveData<List<Task>> select();
 }
