@@ -19,23 +19,22 @@ import ir.orangehat.todolist.bussines.persistance.database.sqlAsset.AssetSQLiteO
 
 public class MainViewModel extends AndroidViewModel {
 
-    private AppDatabase appDatabase;
     private TodoListDatabaseHelper todoListDatabaseHelper;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
-        appDatabase = Room.databaseBuilder(this.getApplication(), AppDatabase.class, "database.db").openHelperFactory(new AssetSQLiteOpenHelperFactory()).allowMainThreadQueries().build();
+        AppDatabase appDatabase = Room.databaseBuilder(this.getApplication(), AppDatabase.class, "database.db").openHelperFactory(new AssetSQLiteOpenHelperFactory()).allowMainThreadQueries().build();
         todoListDatabaseHelper = new TodoListDatabaseHelper(appDatabase.getTodoListDao());
     }
 
-    public LiveData<List<Task>> getListLiveData() {
+    LiveData<List<Task>> getListLiveData() {
         return todoListDatabaseHelper.get();
     }
 
-    public void insertNote(Task task) {
+    void insertNote(Task task) {
         todoListDatabaseHelper.save(task);
     }
-    public void deleteNote(Task task){
+    void deleteNote(Task task){
         todoListDatabaseHelper.remove(task);
     }
 }

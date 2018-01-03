@@ -2,4 +2,7 @@
     <string name="app_name">TodoList</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="delete">delete</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="accept_button">Accept</string>
+    <string name="empty_list_message">Are you ready to add your notes here</string>
 </resources>
