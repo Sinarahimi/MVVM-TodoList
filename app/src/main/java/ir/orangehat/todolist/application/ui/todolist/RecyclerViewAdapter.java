@@ -70,4 +70,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
     }
+
+    public void restoreItem(Task Task, int position) {
+        taskArrayList.add(position, Task);
+        // notify item added by position
+        notifyItemInserted(position);
+    }
 }

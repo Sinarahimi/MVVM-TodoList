@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 public abstract class Persistable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     public int getId() {
