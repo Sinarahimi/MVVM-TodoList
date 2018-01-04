@@ -49,6 +49,4 @@ public class AndroidUtil {
         Snackbar snackbar =Snackbar.make(view,message, Snackbar.LENGTH_SHORT);
         snackbar.show();
     }
-
-
 }

@@ -61,16 +61,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
 
         // backup of removed item for undo purpose
-        final Task deletedItem = taskArrayList.get(viewHolder.getAdapterPosition());
-        final int deletedIndex = viewHolder.getAdapterPosition();
+        Task deletedItem = taskArrayList.get(viewHolder.getAdapterPosition());
+        int deletedIndex = viewHolder.getAdapterPosition();
 
         // remove the item from recycler view
         recyclerViewAdapter.removeItem(viewHolder.getAdapterPosition());
         mainViewModel.deleteNote(deletedItem);
-        // showing snack bar with Undo option
+
+        showUndoSnack(deletedItem, deletedIndex);
+    }
+
+    // showing snack bar with Undo option
+    private void showUndoSnack(Task deletedItem, int deletedIndex) {
         snackbar = Snackbar.make(coordinatorLayout, " It's removed ", Snackbar.LENGTH_LONG);
         snackbar.setAction("UNDO", view -> {
-
             // undo is selected, restore the deleted item
             recyclerViewAdapter.restoreItem(deletedItem, deletedIndex);
         });
@@ -114,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
     private View.OnClickListener FloatingActionButtonClickListener = view -> addItemDialog();
 
     //Dialog for adding item ro room database
-    public void addItemDialog() {
+    private void addItemDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.alert_dialog, null);

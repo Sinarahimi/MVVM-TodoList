@@ -8,7 +8,7 @@ import android.view.View;
 import ir.orangehat.todolist.application.ui.todolist.RecyclerViewAdapter;
 
 /**
- * RecyclerItemTouchHelper
+ * RecyclerItemTouchHelper for using swipe in our item
  */
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback

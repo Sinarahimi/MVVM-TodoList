@@ -9,7 +9,10 @@
         android:id="@+id/relativeLayoutBackground"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_margin="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorAccent">
 
         <ImageView
