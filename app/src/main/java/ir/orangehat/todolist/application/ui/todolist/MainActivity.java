@@ -25,7 +25,8 @@ import java.util.ArrayList;
 
 import ir.orangehat.todolist.R;
 import ir.orangehat.todolist.bussines.model.Task;
-import ir.orangehat.todolist.utils.RecyclerItemTouchHelper;
+import ir.orangehat.todolist.util.AndroidUtil;
+import ir.orangehat.todolist.util.RecyclerItemTouchHelper;
 
 public class MainActivity extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
 
     private View.OnClickListener FloatingActionButtonClickListener = view -> addItemDialog();
 
+    //Dialog for adding item ro room database
     public void addItemDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -135,13 +137,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         public void onClick(View view) {
             EditText editText = dialogView.findViewById(R.id.editText);
 
-            if (editText.getText().toString().trim().length() == 0 ) {
-                snackbar = Snackbar.make(dialogView, "Write task!", Snackbar.LENGTH_SHORT);
-                snackbar.show();
+            if (editText.getText().toString().trim().length() == 0) {
+                AndroidUtil.showSnack(dialogView, "Write task!");
+
             } else {
                 if (date == null) {
-                    snackbar = Snackbar.make(dialogView, "select date from calendar!", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    AndroidUtil.showSnack(dialogView, "select date from calendar!");
                 } else {
                     Task task = new Task();
                     task.setDate(date);

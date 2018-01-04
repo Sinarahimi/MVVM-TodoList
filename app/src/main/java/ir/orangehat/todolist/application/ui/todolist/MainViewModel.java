@@ -34,6 +34,7 @@ public class MainViewModel extends AndroidViewModel {
     void insertNote(Task task) {
         todoListDatabaseHelper.save(task);
     }
+
     void deleteNote(Task task){
         todoListDatabaseHelper.remove(task);
     }
